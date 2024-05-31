@@ -111,7 +111,7 @@ class RecordingPodcastController extends Controller
             'title_podcast' => 'required',
             'photo' => 'file|image|mimes:jpeg,png,jpg|max:20399221',
             'genre_podcast' => 'required',
-            'recording' => 'file|mimes:mp3|max:20482024',
+            'recording' => 'file|max:20482024',
             'description' => 'required|string',
         ]);
 
