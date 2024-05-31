@@ -40,7 +40,7 @@ class RecordingPodcastController extends Controller
 
         $file = $request->file('audio');
         $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
-        $newName = $timestamp . '.mp3';
+        $newName = rand(1, 20) . $timestamp . '.mp3';
 
         $path = $file->storeAs('audio', $newName, 'public');
 
@@ -109,9 +109,9 @@ class RecordingPodcastController extends Controller
     {
         $request->validate([
             'title_podcast' => 'required',
-            'photo' => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
+            'photo' => 'file|image|mimes:jpeg,png,jpg|max:2048',
             'genre_podcast' => 'required',
-            'recording' => 'required|file|mimes:mp3|max:2048',
+            'recording' => 'file|mimes:mp3',
             'description' => 'required|string',
         ]);
 
@@ -128,6 +128,15 @@ class RecordingPodcastController extends Controller
 
             $path = $file->storeAs('photo', $newName, 'public');
             $podcast->photo = $path;
+        }
+
+        if ($request->hasFile('recording')) {
+            $file = $request->file('recording');
+            $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
+            $newName = rand(1, 20) . $timestamp . '.' . $file->getClientOriginalExtension();
+
+            $path = $file->storeAs('audio', $newName, 'public');
+            $podcast->recording = $path;
         }
 
         $podcast->save();

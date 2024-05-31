@@ -104,8 +104,7 @@
                                                     <div class="form-group">
                                                         <label for="recording">Recording</label>
                                                         <input value="{{ $podcast->recording }}" type="file"
-                                                            class="form-control" id="recording" name="recording"
-                                                            required>
+                                                            class="form-control" id="recording" name="recording">
                                                         @error('recording')
                                                         <div class="text-danger">{{ $message }}</div>
                                                         @enderror

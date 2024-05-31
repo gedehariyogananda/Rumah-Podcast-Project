@@ -26,7 +26,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         };
 
         mediaRecorder.onstop = () => {
-            const blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+            const blob = new Blob(chunks, { 'type': 'audio/mp3; codecs=opus' });
             chunks = [];
             audioURL = window.URL.createObjectURL(blob);
             application(2); // Move to 'Download' state after stopping
@@ -66,7 +66,7 @@ const uploadAudio = async () => {
         const blob = await response.blob();
 
         // Convert Blob to File (optional, depending on backend requirements)
-        const file = new File([blob], 'audio.ogg', { type: 'audio/ogg' });
+        const file = new File([blob], 'audio.mp3', { type: 'audio/mp3' });
 
         // Create FormData and append the file
         const formData = new FormData();
