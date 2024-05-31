@@ -109,9 +109,9 @@ class RecordingPodcastController extends Controller
     {
         $request->validate([
             'title_podcast' => 'required',
-            'photo' => 'file|image|mimes:jpeg,png,jpg|max:2048',
+            'photo' => 'file|image|mimes:jpeg,png,jpg|max:20399221',
             'genre_podcast' => 'required',
-            'recording' => 'file|mimes:mp3',
+            'recording' => 'file|mimes:mp3|max:20482024',
             'description' => 'required|string',
         ]);
 
@@ -131,18 +131,19 @@ class RecordingPodcastController extends Controller
         }
 
         if ($request->hasFile('recording')) {
-            $file = $request->file('recording');
-            $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
-            $newName = rand(1, 20) . $timestamp . '.' . $file->getClientOriginalExtension();
+            $file2 = $request->file('recording');
+            $timestamp2 = Carbon::now()->format('Y-m-d_H-i-s');
+            $newName2 = rand(1, 20) . $timestamp2 . '.' . $file2->getClientOriginalExtension();
 
-            $path = $file->storeAs('audio', $newName, 'public');
-            $podcast->recording = $path;
+            $path2 = $file2->storeAs('audio', $newName2, 'public');
+            $podcast->recording = $path2;
         }
 
         $podcast->save();
 
         return redirect()->route('recording.index-podcast')->with('success', 'Podcast has been updated successfully');
     }
+
 
     public function getAllDataUsers()
     {
@@ -163,5 +164,54 @@ class RecordingPodcastController extends Controller
         $podcast->delete();
 
         return back()->with('success', 'Podcast has been deleted successfully');
+    }
+
+    // ------------------ admin ------------------------------------//
+
+    public function getAllDataPodcasts()
+    {
+        $podcasts = $this->recording->with('user')->get();
+        return view('admin.index_podcast', compact('podcasts'));
+    }
+
+    public function deletePodcastUser($slug)
+    {
+        $podcast = $this->recording->where('slug', $slug)->first();
+        $podcast->delete();
+
+        return back()->with('success', 'Podcast has been deleted successfully');
+    }
+
+    public function addPodcastUser(Request $request)
+    {
+        $request->validate([
+            'title_podcast' => 'required',
+            'photo' => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
+            'genre_podcast' => 'required',
+            'recording' => 'required|file|mimes:mp3|max:20482024',
+            'description' => 'required|string',
+        ]);
+
+        $file1 = $request->file('recording');
+        $timestamp1 = Carbon::now()->format('Y-m-d_H-i-s');
+        $newName1 = rand(1, 20) . $timestamp1 . '.mp3';
+        $path1 = $file1->storeAs('audio', $newName1, 'public');
+
+        $file2 = $request->file('photo');
+        $timestamp2 = Carbon::now()->format('Y-m-d_H-i-s');
+        $newName2 = $timestamp2 . '.' . $file2->getClientOriginalExtension();
+        $path2 = $file2->storeAs('photo', $newName2, 'public');
+
+        $this->recording->create([
+            'user_id' => auth()->user()->id,
+            'title_podcast' => $request->title_podcast,
+            'photo' => $path2,
+            'genre_podcast' => $request->genre_podcast,
+            'recording' => $path1,
+            'slug' => uniqid(),
+            'description' => $request->description
+        ]);
+
+        return back()->with('success', 'Podcast has been added successfully');
     }
 }

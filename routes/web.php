@@ -42,4 +42,7 @@ Route::controller(RecordingPodcastController::class)->name('recording.')->group(
   // searching 
   Route::get('/search', 'search')->name('search');
   Route::delete('/delete/{slug}/podcast', 'delete')->name('delete');
+  Route::get('/admin-get-all/podcasts', 'getAllDataPodcasts')->name('getAllDataPodcasts');
+  Route::get('/delete/podcast-user/{slug}', 'deletePodcastUser')->name('deletePodcastUser');
+  Route::post('/add-podcast-user', 'addPodcastUser')->name('addPodcastUser');
 });

@@ -8,8 +8,74 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-sm btn-primary" href="{{ route('recording.index') }}"><i class="fa fa-plus"> </i>
-            Recording New Podcast</a>
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-sm btn-primary" href="{{ route('recording.index') }}"><i class="fa fa-plus"> </i> Setup
+                Recording</a>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#postData">
+                <i class="fa fa-plus"></i> Upload Recording Podcast
+            </button>
+            <div class="modal fade" id="postData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Podcast</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('recording.addPodcastUser') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="title_podcast">Title Podcast</label>
+                                    <input type="text" class="form-control" id="title_podcast"
+                                        placeholder="Enter title podcast" name="title_podcast" autocomplete="off"
+                                        required>
+                                    @error('title_podcast')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="photo">Thumnail Podcast</label>
+                                    <input type="file" class="form-control-file" id="photo" name="photo" required>
+                                    @error('photo')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="genre_podcast">Genre Podcast</label>
+                                    <select name="genre_podcast" id="genre_podcast" class="form-control">
+                                        <option value="" disabled selected>-- selected</option>
+                                        <option value="Horor">Horor</option>
+                                        <option value="Komedi">Komedi</option>
+                                        <option value="Inspirasi">Inspirasi</option>
+                                    </select>
+                                    @error('genre_podcast')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="recording">Recording</label>
+                                    <input type="file" class="form-control" id="recording" name="recording" required>
+                                    @error('recording')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" class="form-control"
+                                        required></textarea>
+                                    @error('description')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Create</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="card-body">
@@ -121,10 +187,6 @@
                                                         @enderror
 
                                                     </div>
-
-
-
-
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-block">Update</button>
                                             </form>

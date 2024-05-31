@@ -15,6 +15,7 @@ class RecordingPodcast extends Model
         'photo',
         'genre_podcast',
         'recording',
+        'description',
         'slug'
     ];
 
@@ -22,5 +23,4 @@ class RecordingPodcast extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

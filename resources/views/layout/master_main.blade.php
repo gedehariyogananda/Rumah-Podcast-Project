@@ -93,11 +93,17 @@
                 </a>
             </li>
 
-            @endif
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('recording.getAllDataPodcasts') }}">
+                    <i class="fa fa-podcast"></i>
+                    <span>{{ __('All Data Podcast') }}</span>
+                </a>
 
-            <div class="sidebar-heading">
-                {{ __('Setting Page') }}
-            </div>
+                @endif
+
+                <div class="sidebar-heading">
+                    {{ __('Setting Page') }}
+                </div>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('profile') }}">
@@ -146,8 +152,8 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="{{ route('profile') }}" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="{{ route('profile') }}" id="userDropdown"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name
                                     }}</span>
                                 <img class="img-profile rounded-circle"
